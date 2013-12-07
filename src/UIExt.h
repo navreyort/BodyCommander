@@ -37,9 +37,8 @@ public:
     
     void setup(){
         uiCanvas = new ofxUICanvas(property->x,property->y,property->w,property->h);
-        uiCanvas->addWidgetDown(new ofxUILabel(name, OFX_UI_FONT_LARGE));
-        
-        uiCanvas->addSpacer();
+        uiCanvas->addWidgetDown(new ofxUILabel(name, OFX_UI_FONT_MEDIUM));
+    
         uiCanvas->addSpacer();
         
         this->setupBody();

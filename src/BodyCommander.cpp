@@ -5,15 +5,15 @@ void BodyCommander::setup(){
     
     terminal = Terminal::sharedTerminal();
     
-    serialSetup = new SerialSetup(kCanvasWidth+4, 437+kCanvasHeight, 532, kCanvasHeight);
+    serialSetup = new SerialSetup(kCanvasWidth+4, 2, 532, kRegister0Height);
     serialSetup->setup();
     
-    registers.push_back(new Register0(2,2,kCanvasWidth,kCanvasHeight));
-    registers.push_back(new Register1(2,kCanvasHeight+4,kCanvasWidth,140));
-    registers.push_back(new Register2(2,140+kCanvasHeight+6,kCanvasWidth,80));
-    registers.push_back(new Register4(2,220+kCanvasHeight+8,kCanvasWidth,100));
-    registers.push_back(new Register5(2,320+kCanvasHeight+10,kCanvasWidth,120));
-    registers.push_back(new Register7(2,440+kCanvasHeight+12,kCanvasWidth,150));
+    registers.push_back(new Register0(kSpacing,kSpacing,kCanvasWidth,kRegister0Height));
+    registers.push_back(new Register1(kSpacing,kRegister0Height+kSpacing*2,kCanvasWidth,kRegister1Height));
+    registers.push_back(new Register2(kSpacing,kRegister1Height+kRegister0Height+kSpacing*3,kCanvasWidth,kRegister2Height));
+    registers.push_back(new Register4(kSpacing,kRegister2Height+kRegister1Height+kRegister0Height+kSpacing*4,kCanvasWidth,kRegister4Height));
+    registers.push_back(new Register5(2,kRegister4Height+kRegister2Height+kRegister1Height+kRegister0Height+kSpacing*5,kCanvasWidth,kRegister5Height));
+    registers.push_back(new Register7(2,kRegister5Height+kRegister4Height+kRegister2Height+kRegister1Height+kRegister0Height+kSpacing*6,kCanvasWidth,kRegister7Height));
     
     for (int i=0; i<registers.size(); i++) {
         registers[i]->setup();

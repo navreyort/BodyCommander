@@ -88,7 +88,13 @@ typedef struct SEND_DATA_STRUCTURE {
 #define kTerminalName "Terminal"
 
 #define kCanvasWidth 260
-#define kCanvasHeight 165
+#define kRegister0Height 152
+#define kRegister1Height 125
+#define kRegister2Height 55
+#define kRegister4Height 77
+#define kRegister5Height 102
+#define kRegister7Height 132
+#define kSpacing 2
 #define kToggleSize 20
 
 #endif

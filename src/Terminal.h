@@ -72,7 +72,7 @@ inline void Terminal::post(string s){
 inline Terminal *Terminal::sharedTerminal() {
 	static Terminal *terminal = NULL;
 	if (terminal == NULL) {
-		terminal = new Terminal(kCanvasWidth+4, 267+kCanvasHeight, 532, 168);
+		terminal = new Terminal(kCanvasWidth+kSpacing*2, kRegister0Height+kSpacing*2, 532, 168);
         terminal->setup();
 	}
 	return terminal;
