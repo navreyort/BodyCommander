@@ -2,22 +2,31 @@
 
 //--------------------------------------------------------------
 void BodyCommander::setup(){
-    gui = new ofxUICanvas(0,0,320,320);		//ofxUICanvas(float x, float y, float width, float height)
-    gui->addWidgetDown(new ofxUILabel("OFXUI TUTORIAL", OFX_UI_FONT_LARGE));
-    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE"));
-    gui->addWidgetDown(new ofxUIToggle(32, 32, false, "FULLSCREEN"));
-    ofAddListener(gui->newGUIEvent, this, &BodyCommander::guiEvent);
-    gui->loadSettings("GUI/guiSettings.xml");
+    
+    terminal = Terminal::sharedTerminal();
+    
+    serialSetup = new SerialSetup(kCanvasWidth+4, 437+kCanvasHeight, 532, kCanvasHeight);
+    serialSetup->setup();
+    
+    registers.push_back(new Register0(2,2,kCanvasWidth,kCanvasHeight));
+    registers.push_back(new Register1(2,kCanvasHeight+4,kCanvasWidth,140));
+    registers.push_back(new Register2(2,140+kCanvasHeight+6,kCanvasWidth,80));
+    registers.push_back(new Register4(2,220+kCanvasHeight+8,kCanvasWidth,100));
+    registers.push_back(new Register5(2,320+kCanvasHeight+10,kCanvasWidth,120));
+    registers.push_back(new Register7(2,440+kCanvasHeight+12,kCanvasWidth,150));
+    
+    for (int i=0; i<registers.size(); i++) {
+        registers[i]->setup();
+    }
 }
 
 //--------------------------------------------------------------
 void BodyCommander::update(){
-
 }
 
 //--------------------------------------------------------------
 void BodyCommander::draw(){
-
+    ofBackground(100);
 }
 
 //--------------------------------------------------------------
@@ -66,18 +75,16 @@ void BodyCommander::dragEvent(ofDragInfo dragInfo){
 }
 //--------------------------------------------------------------
 void BodyCommander::exit(){
-	gui->saveSettings("GUI/guiSettings.xml");
-    delete gui;
 }
 //--------------------------------------------------------------
 void BodyCommander::guiEvent(ofxUIEventArgs &e){
-	if(e.widget->getName() == "BACKGROUND VALUE"){
-        ofxUISlider *slider = (ofxUISlider *) e.widget;
-        ofBackground(slider->getScaledValue());
-    }
-    else if(e.widget->getName() == "FULLSCREEN")
-    {
-        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
-        ofSetFullscreen(toggle->getValue());
-    }
+//	if(e.widget->getName() == "BACKGROUND VALUE"){
+//        ofxUISlider *slider = (ofxUISlider *) e.widget;
+//        ofBackground(slider->getScaledValue());
+//    }
+//    else if(e.widget->getName() == "FULLSCREEN")
+//    {
+//        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
+//        ofSetFullscreen(toggle->getValue());
+//    }
 }

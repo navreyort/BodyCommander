@@ -2,6 +2,14 @@
 
 #include "ofMain.h"
 #include "ofxUI.h"
+#include "SerialSetup.h"
+#include "Terminal.h"
+#include "Register0.h"
+#include "Register1.h"
+#include "Register2.h"
+#include "Register4.h"
+#include "Register5.h"
+#include "Register7.h"
 
 class BodyCommander : public ofBaseApp{
 	public:
@@ -19,7 +27,9 @@ class BodyCommander : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    ofxUICanvas *gui;
+    SerialSetup *serialSetup;
+    Terminal *terminal;
+    vector<Register*> registers;
     
     void exit();
     void guiEvent(ofxUIEventArgs &e);
