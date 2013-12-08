@@ -16,21 +16,24 @@ public:
     Register5(int x, int y, int w, int h):Register(kRegister5Name,x,y,w,h){};
     ~Register5(){
         delete modMinList;
+        delete agcSigToggle;
     };
 
 protected:
     void uiEvent(ofxUIEventArgs &e);
     void setupBody();
-
+    void setGUIState();
+    
 private:
     ofxUIDropDownList *modMinList;
-    
+    vector<string> modMins;
+    ofxUIToggle *agcSigToggle;
 };
 
 inline void Register5::setupBody(){
-    uiCanvas->addWidgetDown(new ofxUIToggle(kToggleSize, kToggleSize, false, kAgcSig));
+    agcSigToggle = new ofxUIToggle(kToggleSize, kToggleSize, false, kAgcSig);
+    uiCanvas->addWidgetDown(agcSigToggle);
     
-    vector<string> modMins;
     modMins.push_back("33%");modMins.push_back("60%");modMins.push_back("14%");modMins.push_back("8%");
     modMinList = UIExt::createDropDownList(kModMin,modMins,uiCanvas);
 }
@@ -76,5 +79,33 @@ inline void Register5::uiEvent(ofxUIEventArgs &e){
     }
 }
 
-
+inline void Register5::setGUIState(){
+    
+    if(Register::receiver_settings->agcsig == DEMOD_OUTPUT_AGC_DEPENDENT_ENABLE){
+        agcSigToggle->setValue(false);
+    }
+    else {
+        agcSigToggle->setValue(true);
+    }
+    
+    int index = 0;
+    switch (Register::receiver_settings->modmin) {
+        case MIN_MOD_DEPTH_33_PCT:
+            index = 0;
+            break;
+        case MIN_MOD_DEPTH_60_PCT:
+            index = 1;
+            break;
+        case MIN_MOD_DEPTH_14_PCT:
+            index = 2;
+            break;
+        case MIN_MOD_DEPTH_8_PCT:
+            index = 3;
+            break;
+        default:
+            break;
+    }
+    modMinList->setLabelText(modMins.at(index));
+    modMinList->activateToggle(modMins.at(index));
+}
 #endif /* defined(__BodyCommander__Register5__) */

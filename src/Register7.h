@@ -19,6 +19,7 @@ public:
 protected:
     void uiEvent(ofxUIEventArgs &e);
     void setupBody();
+    void setGUIState();
     
 private:
     vector<string> registerNames;
@@ -30,7 +31,7 @@ inline void Register7::setupBody(){
     registerNames.push_back(kPei);
     
     for (int i=0; i<7; i++) {
-        if(i % 2 != 0){
+        if(i % 3 != 0){
             uiCanvas->addWidgetRight(new ofxUIToggle(kToggleSize, kToggleSize, false, registerNames[i]));
         }
         else{
@@ -43,4 +44,5 @@ inline void Register7::uiEvent(ofxUIEventArgs &e){
     string name = e.widget->getName();
 }
 
+inline void Register7::setGUIState(){}
 #endif /* defined(__BodyCommander__Register7__) */

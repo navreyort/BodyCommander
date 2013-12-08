@@ -23,27 +23,33 @@ public:
 protected:
     void uiEvent(ofxUIEventArgs &e);
     void setupBody();
+    void setGUIState();
     
 private:
     ofxUIDropDownList *oefhtList;
     ofxUIDropDownList *oefltList;
+    ofxUIToggle *alertToggle;
+    ofxUIToggle *inputChannelToggle;
+    
+    vector<string> oefhts;
+    vector<string> oeflts;
 };
 
 inline void Register0::setupBody(){
     
     //list
-    vector<string> oefhts;
     oefhts.push_back("Disable");oefhts.push_back("1ms");oefhts.push_back("2ms");oefhts.push_back("4ms");
     oefhtList = UIExt::createDropDownList(kOEFHT,oefhts,uiCanvas);
     
     //list
-    vector<string> oeflts;
     oeflts.push_back("1ms");oeflts.push_back("2ms");oeflts.push_back("4ms");
-    oefhtList = UIExt::createDropDownList(kOEFLT,oeflts,uiCanvas);
+    oefltList = UIExt::createDropDownList(kOEFLT,oeflts,uiCanvas);
     
     //toggle buttons
-    uiCanvas->addWidgetDown(new ofxUIToggle(kToggleSize, kToggleSize, false, kAlertTrigger));
-    uiCanvas->addWidgetRight(new ofxUIToggle(kToggleSize, kToggleSize, false, kInputChannel));
+    alertToggle = new ofxUIToggle(kToggleSize, kToggleSize, false, kAlertTrigger);
+    uiCanvas->addWidgetDown(alertToggle);
+    inputChannelToggle = new ofxUIToggle(kToggleSize, kToggleSize, false, kInputChannel);
+    uiCanvas->addWidgetRight(inputChannelToggle);
 }
 
 inline void Register0::uiEvent(ofxUIEventArgs &e){
@@ -120,4 +126,55 @@ inline void Register0::uiEvent(ofxUIEventArgs &e){
     }
 }
 
+inline void Register0::setGUIState(){
+    int oefhtIndex = 0;
+    switch (Register::receiver_settings->oeh) {
+        case OUTPUT_ENABLE_FILTER_HIGH_DISABLED:
+            oefhtIndex = 0;
+            break;
+        case OUTPUT_ENABLE_FILTER_HIGH_1MS:
+            oefhtIndex = 1;
+            break;
+        case OUTPUT_ENABLE_FILTER_HIGH_2MS:
+            oefhtIndex = 2;
+            break;
+        case OUTPUT_ENABLE_FILTER_HIGH_4MS:
+            oefhtIndex = 3;
+            break;
+        default:
+            break;
+    }
+    oefhtList->setLabelText(oefhts.at(oefhtIndex));
+    oefhtList->activateToggle(oefhts.at(oefhtIndex));
+    
+    int oefltIndex = 0;
+    switch (Register::receiver_settings->oel) {
+        case OUTPUT_ENABLE_FILTER_LOW_1MS:
+            oefltIndex = 0;
+            break;
+        case OUTPUT_ENABLE_FILTER_LOW_2MS:
+            oefltIndex = 1;
+            break;
+        case OUTPUT_ENABLE_FILTER_LOW_4MS:
+            oefltIndex = 2;
+        default:
+            break;
+    }
+    oefltList->setLabelText(oeflts.at(oefltIndex));
+    oefltList->activateToggle(oeflts.at(oefltIndex));
+    
+    if(Register::receiver_settings->alrtind == ALERT_TRIGGER_BY_PARITY_ERROR_OR_ALARM_TIMER){
+        alertToggle->setValue(false);
+    }
+    else {
+        alertToggle->setValue(true);
+    }
+    
+    if(Register::receiver_settings->lcxen == INPUT_CHANNEL_DISABLE){
+        inputChannelToggle->setValue(false);
+    }
+    else {
+        inputChannelToggle->setValue(true);
+    }
+}
 #endif /* defined(__BodyCommander__OutputEnableFilter__) */

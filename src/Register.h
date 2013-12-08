@@ -18,11 +18,52 @@ public:
     virtual ~Register(){};
 
     static SEND_DATA_STRUCTURE *receiver_settings;
+    static SEND_DATA_STRUCTURE *sentData;
+    static bool checkData();
+    static void copyData();
+    static bool didSend;
+    virtual void setGUIState(){};
     
 protected:
-
     virtual void uiEvent(ofxUIEventArgs &e){};
     virtual void setupBody(){};
+
 };
+
+inline bool Register::checkData(){
+    Register::didSend = false;
+    if((Register::sentData->oeh == Register::receiver_settings->oeh) &&
+       (Register::sentData->oel == Register::receiver_settings->oel) &&
+        (Register::sentData->alrtind == Register::receiver_settings->alrtind) &&
+        (Register::sentData->lcxen == Register::receiver_settings->lcxen) &&
+        (Register::sentData->datout == Register::receiver_settings->datout) &&
+        (Register::sentData->tunecap == Register::receiver_settings->tunecap) &&
+        (Register::sentData->rssifet == Register::receiver_settings->rssifet) &&
+        (Register::sentData->clkdiv == Register::receiver_settings->clkdiv) &&
+        (Register::sentData->sensctl == Register::receiver_settings->sensctl) &&
+        (Register::sentData->agcsig == Register::receiver_settings->agcsig) &&
+        (Register::sentData->modmin == Register::receiver_settings->modmin) &&
+        (Register::sentData->led == Register::receiver_settings->led)){
+        return true;
+    }
+    return false;
+}
+
+inline void Register::copyData(){
+    Register::sentData->oeh = Register::receiver_settings->oeh;
+    Register::sentData->oel = Register::receiver_settings->oel;
+    Register::sentData->alrtind = Register::receiver_settings->alrtind;
+    Register::sentData->lcxen = Register::receiver_settings->lcxen;
+    Register::sentData->datout = Register::receiver_settings->datout;
+    Register::sentData->tunecap = Register::receiver_settings->tunecap;
+    Register::sentData->rssifet = Register::receiver_settings->rssifet;
+    Register::sentData->clkdiv = Register::receiver_settings->clkdiv;
+    Register::sentData->sensctl = Register::receiver_settings->sensctl;
+    Register::sentData->agcsig = Register::receiver_settings->agcsig;
+    Register::sentData->modmin = Register::receiver_settings->modmin;
+    Register::sentData->led = Register::receiver_settings->led;
+    
+    Register::didSend = true;
+}
 
 #endif /* defined(__BodyCommander__Register__) */

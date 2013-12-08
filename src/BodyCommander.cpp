@@ -5,9 +5,6 @@ void BodyCommander::setup(){
     
     terminal = Terminal::sharedTerminal();
     
-    serialSetup = new SerialSetup(kCanvasWidth+4, 2, 532, kRegister0Height);
-    serialSetup->setup();
-    
     registers.push_back(new Register0(kSpacing,kSpacing,kCanvasWidth,kRegister0Height));
     registers.push_back(new Register1(kSpacing,kRegister0Height+kSpacing*2,kCanvasWidth,kRegister1Height));
     registers.push_back(new Register2(kSpacing,kRegister1Height+kRegister0Height+kSpacing*3,kCanvasWidth,kRegister2Height));
@@ -18,12 +15,21 @@ void BodyCommander::setup(){
     for (int i=0; i<registers.size(); i++) {
         registers[i]->setup();
     }
-}
+    
+    serialSetup = new SerialSetup(registers, kCanvasWidth*2+kSpacing*3, 2, kCanvasWidth, kRegister0Height);
+    serialSetup->setup();
+    
+    registerPreset = new RegisterPreset(registers, kCanvasWidth+kSpacing*2, 2, kCanvasWidth, kRegister0Height);
+    registerPreset->setup();
+    
+    image = new FaceImagePanel(kCanvasWidth+kSpacing*2,kRegister0Height+kSpacing*2+168, 522, 200);
+    image->setup();
+};
 
 //--------------------------------------------------------------
 void BodyCommander::update(){
+    serialSetup->receiveCycle();
 }
-
 //--------------------------------------------------------------
 void BodyCommander::draw(){
     ofBackground(100);
@@ -77,14 +83,3 @@ void BodyCommander::dragEvent(ofDragInfo dragInfo){
 void BodyCommander::exit(){
 }
 //--------------------------------------------------------------
-void BodyCommander::guiEvent(ofxUIEventArgs &e){
-//	if(e.widget->getName() == "BACKGROUND VALUE"){
-//        ofxUISlider *slider = (ofxUISlider *) e.widget;
-//        ofBackground(slider->getScaledValue());
-//    }
-//    else if(e.widget->getName() == "FULLSCREEN")
-//    {
-//        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
-//        ofSetFullscreen(toggle->getValue());
-//    }
-}

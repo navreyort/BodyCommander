@@ -47,12 +47,15 @@ public:
         uiCanvas->loadSettings("GUI/"+name);
     };
     
+    virtual void setGUIState(){};
+    
 protected:
     ofxUICanvas *uiCanvas;
     string name;
     
     virtual void uiEvent(ofxUIEventArgs &e){};
     virtual void setupBody(){};
+    
 private:
     GUIProperty *property;
 };

@@ -21,6 +21,7 @@ public:
 protected:
     void uiEvent(ofxUIEventArgs &e);
     void setupBody();
+    void setGUIState();
     
 private:
     ofxUISlider *lcxsenSlider;
@@ -28,18 +29,20 @@ private:
 
 inline void Register4::setupBody(){
     //string _name, float _min, float _max, float _value, float w, float h,
-    lcxsenSlider = new ofxUISlider(kLcxSen, 0.0f, 8.0f, 0.0f, kCanvasWidth-10, 30);
+    lcxsenSlider = new ofxUISlider(kLcxSen, 0.0f, 15.0f, 0.0f, kCanvasWidth-10, 30);
     uiCanvas->addWidgetDown(lcxsenSlider);
 }
 
 inline void Register4::uiEvent(ofxUIEventArgs &e){
     string name = e.widget->getName();
     if(name == kLcxSen){
-        Register::receiver_settings->sensctl = (uint8_t) ofMap(((ofxUISlider*) e.widget)->getValue(), 0, 1, 0, 8);
+        Register::receiver_settings->sensctl = (uint8_t) ofMap(((ofxUISlider*) e.widget)->getValue(), 0, 1, 0, 15);
         stringstream sout;
         sout << "Typical Input Channel (LCX) Sensitivity Reduction bit: " << ((int)Register::receiver_settings->sensctl);
         Terminal::sharedTerminal()->post(sout.str());
     }
 }
-
+inline void Register4::setGUIState(){
+    lcxsenSlider->setValue(ofMap(Register::receiver_settings->sensctl, 0, 63, 0, 1));
+}
 #endif /* defined(__BodyCommander__Register4__) */

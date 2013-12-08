@@ -11,7 +11,6 @@
 
 
 #include "UIExt.h"
-#include <iostream>
 #define kMaxLine 12
 
 class Terminal : public UIExt {
@@ -30,6 +29,7 @@ public:
 protected:
     void uiEvent(ofxUIEventArgs &e);
     void setupBody();
+    void setGUIState();
     
 private:
     ofxUITextArea *textArea;
@@ -58,6 +58,8 @@ inline int Terminal::lineCount(string s){
     return count;
 }
 
+inline void Terminal::setGUIState(){}
+
 inline void Terminal::post(string s){
     
     textString += s + "\n";
@@ -72,7 +74,7 @@ inline void Terminal::post(string s){
 inline Terminal *Terminal::sharedTerminal() {
 	static Terminal *terminal = NULL;
 	if (terminal == NULL) {
-		terminal = new Terminal(kCanvasWidth+kSpacing*2, kRegister0Height+kSpacing*2, 532, 168);
+		terminal = new Terminal(kCanvasWidth+kSpacing*2, kRegister0Height+kSpacing*2, 522, 168);
         terminal->setup();
 	}
 	return terminal;

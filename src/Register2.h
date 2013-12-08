@@ -19,11 +19,18 @@ public:
 protected:
     void uiEvent(ofxUIEventArgs &e);
     void setupBody();
+    void setGUIState();
+    
+private:
+    ofxUIToggle *rssiToggle;
+    ofxUIToggle *clkDivToggle;
 };
 
 inline void Register2::setupBody(){
-    uiCanvas->addWidgetDown(new ofxUIToggle(kToggleSize, kToggleSize, false, kRssiFet));
-    uiCanvas->addWidgetRight(new ofxUIToggle(kToggleSize, kToggleSize, false, kClkDiv));
+    rssiToggle = new ofxUIToggle(kToggleSize, kToggleSize, false, kRssiFet);
+    uiCanvas->addWidgetDown(rssiToggle);
+    clkDivToggle = new ofxUIToggle(kToggleSize, kToggleSize, false, kClkDiv);
+    uiCanvas->addWidgetRight(clkDivToggle);
 }
 
 inline void Register2::uiEvent(ofxUIEventArgs &e){
@@ -51,4 +58,20 @@ inline void Register2::uiEvent(ofxUIEventArgs &e){
     }
 }
 
+inline void Register2::setGUIState(){
+
+    if(Register::receiver_settings->rssifet == RSSI_PULL_DOWN_ON){
+        rssiToggle->setValue(false);
+    }
+    else {
+        rssiToggle->setValue(true);
+    }
+    
+    if(Register::receiver_settings->rssifet == CARRIER_CLOCK_DIVIDE_4){
+        clkDivToggle->setValue(false);
+    }
+    else {
+        clkDivToggle->setValue(true);
+    }
+}
 #endif /* defined(__BodyCommander__Register2__) */

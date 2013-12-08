@@ -10,6 +10,8 @@
 #include "Register4.h"
 #include "Register5.h"
 #include "Register7.h"
+#include "PresetPanel.h"
+#include "FaceImagePanel.h"
 
 class BodyCommander : public ofBaseApp{
 	public:
@@ -30,7 +32,8 @@ class BodyCommander : public ofBaseApp{
     SerialSetup *serialSetup;
     Terminal *terminal;
     vector<Register*> registers;
-    
+    RegisterPreset* registerPreset;
+    FaceImagePanel * image;
     void exit();
-    void guiEvent(ofxUIEventArgs &e);
+
 };

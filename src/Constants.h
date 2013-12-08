@@ -34,15 +34,12 @@ typedef struct SEND_DATA_STRUCTURE {
     uint8_t modmin;
     
     uint8_t led;
-    
-    SEND_DATA_STRUCTURE():oeh(0x00),oel(0x00),alrtind(0x00),lcxen(0x00),datout(0x00),tunecap(0x00),rssifet(0x00),clkdiv(0x00),sensctl(0x00),agcsig(0x00),modmin(0x00), led(0x00){};
 } SEND_DATA_STRUCTURE;
 
 #define kMaxRegisterSize 9
 
 //Register 0
 #define kNumRegistersUsedin0th 2
-
 #define kOEFHT "OEH"
 #define kOEFLT "OEL"
 #define kAlertTrigger "ALRTIND"
@@ -93,7 +90,7 @@ typedef struct SEND_DATA_STRUCTURE {
 #define kRegister2Height 55
 #define kRegister4Height 77
 #define kRegister5Height 102
-#define kRegister7Height 132
+#define kRegister7Height 108
 #define kSpacing 2
 #define kToggleSize 20
 
