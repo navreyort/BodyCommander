@@ -79,7 +79,7 @@ inline void Register1::uiEvent(ofxUIEventArgs &e){
 }
 
 inline void Register1::setGUIState(){
-    lcxtunSlider->setValue(ofMap(Register::receiver_settings->tunecap, 0, 63, 0, 1));
+    lcxtunSlider->setValue(Register::receiver_settings->tunecap);
     
     int index = 0;
     switch (Register::receiver_settings->oel) {

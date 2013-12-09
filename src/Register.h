@@ -23,10 +23,12 @@ public:
     static void copyData();
     static bool didSend;
     virtual void setGUIState(){};
+    static void print();
     
 protected:
     virtual void uiEvent(ofxUIEventArgs &e){};
     virtual void setupBody(){};
+    
 };
 
 inline bool Register::checkData(){
@@ -63,6 +65,21 @@ inline void Register::copyData(){
     Register::sentData->led = Register::receiver_settings->led;
     
     Register::didSend = true;
+}
+
+inline void print(){
+    cout << Register::receiver_settings->oeh
+    << ((int)Register::receiver_settings->oel)
+    << ((int)Register::receiver_settings->alrtind)
+    << ((int)Register::receiver_settings->lcxen)
+    << ((int)Register::receiver_settings->datout)
+    << ((int)Register::receiver_settings->tunecap)
+    << ((int)Register::receiver_settings->rssifet)
+    << ((int)Register::receiver_settings->clkdiv)
+    << ((int)Register::receiver_settings->sensctl)
+    << ((int)Register::receiver_settings->agcsig)
+    << ((int)Register::receiver_settings->modmin)
+    << ((int)Register::receiver_settings->led) << endl;
 }
 
 #endif /* defined(__BodyCommander__Register__) */
