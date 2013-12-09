@@ -13,11 +13,14 @@
 #include "EasyTransfer.h"
 #include "Register.h"
 #include "Terminal.h"
+#include "OscResponse.h"
 
 class SerialSetup : public UIExt {
 
 public:
-    SerialSetup(vector<Register*> registers, int x, int y, int w, int h):UIExt(kSerialSetupName, x, y, w, h){};
+    SerialSetup(vector<Register*> registers, int x, int y, int w, int h):UIExt(kSerialSetupName, x, y, w, h){
+        oscResponse = new OscResponse();
+    };
     
     ~SerialSetup(){
         serial->close();
@@ -27,6 +30,8 @@ public:
 
     ofSerial *getSerial() const;
     void receiveCycle();
+    
+    static TELEMETRY_DATA_STRUCTURE *receiver_telemetry;
     
 protected:
     void uiEvent(ofxUIEventArgs &e);
@@ -40,8 +45,10 @@ private:
     ofSerial *serial;
     ofxUIDropDownList *portList;
     EasyTransfer ET;
+    EasyTransfer ET2;
     bool serialConnected;
     vector<Register*> registers;
+    OscResponse *oscResponse;
     
     void write();
 };
@@ -49,6 +56,7 @@ private:
 inline void SerialSetup::setupBody(){
     //Serial Device list
     serial = new ofSerial();
+    //serial->flush();
     vector <ofSerialDeviceInfo> deviceList = serial->getDeviceList();
     for (int i=0; i<deviceList.size(); i++) {
         devices.push_back(deviceList.at(i).getDeviceName());
@@ -91,6 +99,7 @@ inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
             serialConnected = serial->setup(curPort, curRate);
             if(serialConnected){
                 ET.begin((uint8_t*)Register::receiver_settings, sizeof(*Register::receiver_settings), serial);
+                ET2.begin((uint8_t*)SerialSetup::receiver_telemetry, sizeof(*SerialSetup::receiver_telemetry), serial);
             }
             else {
                 Terminal::sharedTerminal()->post("Can't Initialize Serial");
@@ -101,6 +110,7 @@ inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
         serial->close();
         delete serial;
         serial = new ofSerial();
+        //serial->flush();
         vector <ofSerialDeviceInfo> deviceList = serial->getDeviceList();
         devices.clear();
         for (int i=0; i<deviceList.size(); i++) {
@@ -135,13 +145,15 @@ inline void SerialSetup::setGUIState(){
 }
 
 inline void SerialSetup::receiveCycle(){
-    while(serial &&  serial->isInitialized() && serial->available() >= 3){
+    while(serial &&  serial->isInitialized() && serial->available() > 3){
         if(Register::didSend){
             if(ET.receiveData()){
                 if(Register::checkData()){
                     Terminal::sharedTerminal()->post("Data returned is the same!");
                     //Populate UI
-                    
+                    for (int i=0; i<registers.size(); i++) {
+                        registers[i]->setGUIState();
+                    }
                 }
                 else{
                     Terminal::sharedTerminal()->post("Data returned is not the same :(");
@@ -149,26 +161,12 @@ inline void SerialSetup::receiveCycle(){
             }
         }
         else {
-            //Parse waveform/other useful info
-            int bytesRequired = 3;
-            unsigned char bytes[bytesRequired];
-            int bytesRemaining = bytesRequired;
-            int bytesArrayOffset = bytesRequired - bytesRemaining;
-            while (bytesRemaining > 0) {
-               int result = serial->readBytes(&bytes[bytesArrayOffset],bytesRemaining);
-                if(result == OF_SERIAL_ERROR){
-                    Terminal::sharedTerminal()->post("unrecoverable error reading from serial");
-                }
-                else if(result == OF_SERIAL_NO_DATA){
-                    
-                }
-                else {
-                    bytesRemaining -= result;
-                }
+            if(ET2.receiveData()){
+                //TODO display data from the board
+                //cout << receiver_telemetry->decodedData << endl;
+                oscResponse->sendMessage(receiver_telemetry->decodedData);
+                //serial->flush();
             }
-            
-            string s(reinterpret_cast<char const*>(bytes));
-            Terminal::sharedTerminal()->post(s);
         }
     }
 }

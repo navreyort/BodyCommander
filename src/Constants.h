@@ -11,6 +11,11 @@
 
 #include "MCP2035.h"
 
+//------------------- OSC
+#define kOscHost "192.168.43.162"
+#define kOscPort 5006
+#define kOscTag "/bcdata"
+
 //------------------- Microcontroller Related
 
 typedef struct SEND_DATA_STRUCTURE {
@@ -35,6 +40,14 @@ typedef struct SEND_DATA_STRUCTURE {
     
     uint8_t led;
 } SEND_DATA_STRUCTURE;
+
+typedef struct TELEMETRY_DATA_STRUCTURE {
+    //put your variable definitions here for the data you want to send
+    //THIS MUST BE EXACTLY THE SAME ON THE OTHER ARDUINO
+    uint16_t rssi;
+    uint16_t decodedData;
+    
+} TELEMETRY_DATA_STRUCTURE;
 
 #define kMaxRegisterSize 9
 

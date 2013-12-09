@@ -71,9 +71,6 @@ inline void RegisterPreset::setGUIState(){
 
 inline void RegisterPreset::preset1(){
     copyPresets(0);
-    for (int i=0; i<registers.size(); i++) {
-        registers[i]->setGUIState();
-    }
 }
 
 inline void RegisterPreset::copyPresets(int index){

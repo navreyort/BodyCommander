@@ -27,7 +27,6 @@ public:
 protected:
     virtual void uiEvent(ofxUIEventArgs &e){};
     virtual void setupBody(){};
-
 };
 
 inline bool Register::checkData(){

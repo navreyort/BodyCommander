@@ -11,7 +11,7 @@
 
 
 #include "UIExt.h"
-#define kMaxLine 12
+#define kMaxLine 5
 
 class Terminal : public UIExt {
     
@@ -66,7 +66,6 @@ inline void Terminal::post(string s){
     if(lineCount(textString) >= kMaxLine){
         size_t found = textString.find("\n");
         textString = textString.substr(found+1,textString.size()-1);
-        
     }
     textArea->setTextString(textString);
 }
