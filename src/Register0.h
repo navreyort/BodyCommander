@@ -83,21 +83,21 @@ inline void Register0::uiEvent(ofxUIEventArgs &e){
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 14:{
-            Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_1MS;
-            sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oeh);
-            Terminal::sharedTerminal()->post(sout.str());
-            break;
-        }
         case 16:{
-            Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_2MS;
-            sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oeh);
+            Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_1MS;
+            sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oel);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
         case 18:{
+            Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_2MS;
+            sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oel);
+            Terminal::sharedTerminal()->post(sout.str());
+            break;
+        }
+        case 20:{
             Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_4MS;
-            sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oeh);
+            sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oel);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }

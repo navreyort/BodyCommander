@@ -43,6 +43,6 @@ inline void Register4::uiEvent(ofxUIEventArgs &e){
     }
 }
 inline void Register4::setGUIState(){
-    lcxsenSlider->setValue(ofMap(Register::receiver_settings->sensctl, 0, 63, 0, 1));
+    lcxsenSlider->setValue(Register::receiver_settings->sensctl);
 }
 #endif /* defined(__BodyCommander__Register4__) */

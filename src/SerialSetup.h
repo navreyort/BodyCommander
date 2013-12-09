@@ -149,14 +149,14 @@ inline void SerialSetup::receiveCycle(){
         if(Register::didSend){
             if(ET.receiveData()){
                 if(Register::checkData()){
-                    Terminal::sharedTerminal()->post("Data returned is the same!");
+                    Terminal::sharedTerminal()->post(":-)");
                     //Populate UI
                     for (int i=0; i<registers.size(); i++) {
                         registers[i]->setGUIState();
                     }
                 }
                 else{
-                    Terminal::sharedTerminal()->post("Data returned is not the same :(");
+                    Terminal::sharedTerminal()->post(":-(");
                 }
             }
         }
@@ -172,8 +172,14 @@ inline void SerialSetup::receiveCycle(){
 }
 
 inline void SerialSetup::write() {
-    Register::copyData();
-    ET.sendData();
+    
+    if(serial && serial->isInitialized()){
+        Register::copyData();
+        ET.sendData();
+    }
+    else{
+        Terminal::sharedTerminal()->post("Connect to a serial port first!");
+    }
 }
 
 inline ofSerial *SerialSetup::getSerial() const{
