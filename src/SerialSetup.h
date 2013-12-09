@@ -181,7 +181,7 @@ inline void SerialSetup::receiveCycle(){
         else {
             if(ET2.receiveData()){
                 //TODO display data from the board
-                //cout << receiver_telemetry->decodedData << endl;
+                cout << receiver_telemetry->decodedData << endl;
                 oscResponse->sendMessage(receiver_telemetry->decodedData);
                 //serial->flush();
             }
