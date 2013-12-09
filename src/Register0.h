@@ -57,50 +57,51 @@ inline void Register0::uiEvent(ofxUIEventArgs &e){
     int id = e.widget->getID();
     stringstream sout;
     
+    cout << id << endl;
     switch (id) {
-        case 6:{
+        case 5:{
             Register::receiver_settings->oeh = OUTPUT_ENABLE_FILTER_HIGH_DISABLED;
             sout << "Output Enable Filter High Time (TOEH) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 8:{
+        case 7:{
             Register::receiver_settings->oeh = OUTPUT_ENABLE_FILTER_HIGH_1MS;
             sout << "Output Enable Filter High Time (TOEH) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 10:{
+        case 9:{
             Register::receiver_settings->oeh = OUTPUT_ENABLE_FILTER_HIGH_2MS;
             sout << "Output Enable Filter High Time (TOEH) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 12:{
+        case 11:{
             Register::receiver_settings->oeh = OUTPUT_ENABLE_FILTER_HIGH_4MS;
             sout << "Output Enable Filter High Time (TOEH) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 15:{
+        case 14:{
             Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_1MS;
             sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 17:{
+        case 16:{
             Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_2MS;
             sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 19:{
+        case 18:{
             Register::receiver_settings->oel = OUTPUT_ENABLE_FILTER_LOW_4MS;
             sout << "Output Enable Filter Low Time (TOEL) bit: " << ((int)Register::receiver_settings->oeh);
             Terminal::sharedTerminal()->post(sout.str());
             break;
         }
-        case 24:{
+        case 23:{
             if(((ofxUIToggle*)e.widget)->getValue()){
                 Register::receiver_settings->alrtind = ALERT_TRIGGER_BY_PARITY_ERROR_OR_ALARM_TIMER;
                 Terminal::sharedTerminal()->post("Alert bit by parity error or alarm timer");            }
@@ -110,7 +111,7 @@ inline void Register0::uiEvent(ofxUIEventArgs &e){
             }
             break;
         }
-        case 26:{
+        case 25:{
             if(((ofxUIToggle*)e.widget)->getValue()){
                 Register::receiver_settings->lcxen = INPUT_CHANNEL_DISABLE;
                 Terminal::sharedTerminal()->post("Input channel disable");

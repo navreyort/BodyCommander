@@ -53,19 +53,19 @@ inline void Register5::uiEvent(ofxUIEventArgs &e){
     }
     else {
         switch (e.widget->getID()) {
-            case 6:{
+            case 5:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_33_PCT;
                 break;
             }
-            case 8:{
+            case 7:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_60_PCT;
                 break;
             }
-            case 10:{
+            case 9:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_14_PCT;
                 break;
             }
-            case 12:{
+            case 11:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_8_PCT;
                 break;
             }

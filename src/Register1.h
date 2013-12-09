@@ -52,19 +52,19 @@ inline void Register1::uiEvent(ofxUIEventArgs &e){
     }
     else {
         switch (e.widget->getID()) {
-            case 6:{
+            case 5:{
                 Register::receiver_settings->datout = LFDATA_OUTPUT_DEMODULATED;
                 break;
             }
-            case 8:{
+            case 7:{
                 Register::receiver_settings->datout = LFDATA_OUTPUT_CARRIER;
                 break;
             }
-            case 10:{
+            case 9:{
                 Register::receiver_settings->datout = LFDATA_OUTPUT_RSSI;
                 break;
             }
-            case 12:{
+            case 11:{
                 Register::receiver_settings->datout = LFDATA_OUTPUT_BITS_OFFSET;
                 break;
             }

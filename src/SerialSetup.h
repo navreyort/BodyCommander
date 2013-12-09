@@ -18,7 +18,7 @@
 class SerialSetup : public UIExt {
 
 public:
-    SerialSetup(vector<Register*> registers, int x, int y, int w, int h):UIExt(kSerialSetupName, x, y, w, h){
+    SerialSetup(vector<Register*> registers, int x, int y, int w, int h):UIExt(kSerialSetupName, x, y, w, h),registers(registers){
         oscResponse = new OscResponse();
     };
     
@@ -129,14 +129,14 @@ inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
     else if(name == "LED"){
         if(((ofxUIToggle*)e.widget)->getValue()){
             Register::receiver_settings->led = 0x01;
-            Terminal::sharedTerminal()->post("LED on");
+            //Terminal::sharedTerminal()->post("LED on");
         }
         else {
             Register::receiver_settings->led = 0x00;
-            Terminal::sharedTerminal()->post("LED off");
+            //Terminal::sharedTerminal()->post("LED off");
         }
         
-        cout << "LED: " << ((int) Register::receiver_settings->led) << endl;
+        //cout << "LED: " << ((int) Register::receiver_settings->led) << endl;
     }
 }
 
