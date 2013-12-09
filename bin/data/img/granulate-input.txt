@@ -1,0 +1,67 @@
+(
+var bufL, bufR, maxCycleTime, input, recycle, threshhold, inputAmp, chanSelect, dummy;
+var granulated;
+var maxPitchShift, maxPitchDisp, maxTimeDisp, maxOverlap, maxDur;
+var delayLineLength;
+var pitchSlider, pitchDispSlider, timeDispSlider, durSlider, overlapSlider, ampSlider;
+
+maxCycleTime = 1;	// buffer loop time
+maxDur = 0.2;
+maxPitchShift = 4;	// maximum upward transposition ratio
+maxPitchDisp = 1;
+maxTimeDisp = 0.5;
+maxOverlap = 8;
+threshhold = 0.05;	// noise gating threshold
+
+// create window
+if ( not( w.isKindOf(GUIWindow) ), {
+	w = GUIWindow.new("panel", Rect.new( 128, 64, 528, 264 ));
+	SliderView.new( w, Rect.new( 17, 16, 227, 35 ), "SliderView", 1, 0, maxPitchShift, 0, 'linear');
+	SliderView.new( w, Rect.new( 17, 39, 227, 58 ), "SliderView", 0, 0, maxPitchDisp, 0, 'linear');
+	SliderView.new( w, Rect.new( 17, 62, 227, 81 ), "SliderView", 0, 0, maxTimeDisp, 0, 'linear');
+	SliderView.new( w, Rect.new( 17, 85, 227, 104 ), "SliderView", maxOverlap, 0.1, maxOverlap, 0, 'exponential');
+	SliderView.new( w, Rect.new( 17, 108, 227, 127 ), "SliderView", 0.02, 0.02, maxDur, 0, 'exponential');
+	SliderView.new( w, Rect.new( 17, 131, 227, 150 ), "SliderView", 0.5, 0, 1, 0, 'linear');
+	StringView.new( w, Rect.new( 233, 16, 361, 36 ), "Pitch");
+	StringView.new( w, Rect.new( 233, 39, 361, 59 ), "Pitch Dispersion");
+	StringView.new( w, Rect.new( 233, 62, 361, 82 ), "Time Dispersion");
+	StringView.new( w, Rect.new( 233, 85, 361, 105 ), "Grain Density");
+	StringView.new( w, Rect.new( 233, 108, 361, 128 ), "Grain Duration");
+	StringView.new( w, Rect.new( 233, 131, 361, 151 ), "Grain Amplitude");
+	w.onClose = { w = nil; }; // upon closing window, set global variable 'w' to nil
+},{
+	w.toFront;
+});
+
+// use multiple assignment to get slider views
+# pitchSlider, pitchDispSlider, timeDispSlider, overlapSlider, durSlider, ampSlider = w.views;
+
+play({ arg synth;
+	// allocate delay lines
+	delayLineLength = Synth.sampleRate * maxCycleTime + synth.blockSize + 2;
+	bufL = Signal.new(delayLineLength);
+	bufR = Signal.new(delayLineLength);
+	
+	// spawn grains
+	granulated = GrainTap.ar([bufL, bufR], durSlider.kr, pitchSlider.kr, pitchDispSlider.kr,
+					timeDispSlider.kr, overlapSlider.kr, ampSlider.kr);
+
+//	input = AudioIn.ar([1,2]);
+	input = FSinOsc.ar(1000, LFPulse.kr(0.3, 0.05, 0.3));		// sine pulse
+	recycle = TapN.ar([bufL, bufR], maxCycleTime);
+
+	// select between rerecording previous delay line data or new input
+	// depending on input amplitude
+	inputAmp = Amplitude.kr(input);
+	chanSelect = Lag.kr(inputAmp > threshhold, 0.1);
+	input = (input * chanSelect) + (recycle * (1 - chanSelect));
+
+//	DelayWr.ar([bufL, bufR], input <! granulated);
+	DelayWr.ar([bufL, bufR], input);
+	granulated
+})
+)
+
+
+	 play(FSinOsc.ar(1000, LFPulse.kr(0.3, 0.05, 0.3)));		// sine pulse
+

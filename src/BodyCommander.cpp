@@ -57,12 +57,12 @@ void BodyCommander::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void BodyCommander::mousePressed(int x, int y, int button){
-
+    Mouse::sharedMouse()->pressed();
 }
 
 //--------------------------------------------------------------
 void BodyCommander::mouseReleased(int x, int y, int button){
-
+    Mouse::sharedMouse()->released();
 }
 
 //--------------------------------------------------------------

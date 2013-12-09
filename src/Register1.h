@@ -11,7 +11,7 @@
 
 #include "Register.h"
 
-class Register1 : public Register{
+class Register1 : public Register {
 
 public:
     Register1(int x, int y, int w, int h):Register(kRegister1Name,x,y,w,h){};

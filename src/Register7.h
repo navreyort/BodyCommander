@@ -31,11 +31,12 @@ inline void Register7::setupBody(){
     registerNames.push_back(kPei);
     
     for (int i=0; i<7; i++) {
+        ofxUIToggle *toggle = new ofxUIToggle(kToggleSize, kToggleSize, false, registerNames[i]);
         if(i % 3 != 0){
-            uiCanvas->addWidgetRight(new ofxUIToggle(kToggleSize, kToggleSize, false, registerNames[i]));
+            uiCanvas->addWidgetRight(toggle);
         }
         else{
-            uiCanvas->addWidgetDown(new ofxUIToggle(kToggleSize, kToggleSize, false, registerNames[i]));
+            uiCanvas->addWidgetDown(toggle);
         }
     }
 }

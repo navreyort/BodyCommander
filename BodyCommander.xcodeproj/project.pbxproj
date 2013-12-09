@@ -80,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		9A3CCCFF18554D0000FD8453 /* OscResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscResponse.h; sourceTree = "<group>"; };
+		9A47F7F9185673AC0086553E /* Mouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mouse.h; sourceTree = "<group>"; };
 		9A4F06E71851092A008BB0EA /* ofxUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUI.h; sourceTree = "<group>"; };
 		9A4F06E81851092A008BB0EA /* ofxUI2DGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUI2DGraph.h; sourceTree = "<group>"; };
 		9A4F06E91851092A008BB0EA /* ofxUI2DPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUI2DPad.h; sourceTree = "<group>"; };
@@ -463,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				9A9CD5E91851573E0033B6BA /* UIExt.h */,
+				9A47F7F9185673AC0086553E /* Mouse.h */,
 			);
 			name = UIExt;
 			sourceTree = "<group>";

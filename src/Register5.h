@@ -52,20 +52,21 @@ inline void Register5::uiEvent(ofxUIEventArgs &e){
         }
     }
     else {
+        cout << e.widget->getID() << endl;
         switch (e.widget->getID()) {
-            case 5:{
+            case 7:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_33_PCT;
                 break;
             }
-            case 7:{
+            case 9:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_60_PCT;
                 break;
             }
-            case 9:{
+            case 11:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_14_PCT;
                 break;
             }
-            case 11:{
+            case 13:{
                 Register::receiver_settings->modmin = MIN_MOD_DEPTH_8_PCT;
                 break;
             }
@@ -82,10 +83,12 @@ inline void Register5::uiEvent(ofxUIEventArgs &e){
 inline void Register5::setGUIState(){
     
     if(Register::receiver_settings->agcsig == DEMOD_OUTPUT_AGC_DEPENDENT_ENABLE){
-        agcSigToggle->setValue(false);
+        agcSigToggle->setValue(true);
+        agcSigToggle->setState(1);
     }
     else {
-        agcSigToggle->setValue(true);
+        agcSigToggle->setValue(false);
+        agcSigToggle->setState(0);
     }
     
     int index = 0;

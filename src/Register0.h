@@ -57,6 +57,7 @@ inline void Register0::uiEvent(ofxUIEventArgs &e){
     int id = e.widget->getID();
     stringstream sout;
     
+    
     cout << id << endl;
     switch (id) {
         case 5:{
@@ -165,17 +166,22 @@ inline void Register0::setGUIState(){
     oefltList->activateToggle(oeflts.at(oefltIndex));
     
     if(Register::receiver_settings->alrtind == ALERT_TRIGGER_BY_PARITY_ERROR_OR_ALARM_TIMER){
-        alertToggle->setValue(false);
+        alertToggle->setValue(true);
+        alertToggle->setState(1);
     }
     else {
-        alertToggle->setValue(true);
+        alertToggle->setValue(false);
+        alertToggle->setState(0);
+        
     }
     
     if(Register::receiver_settings->lcxen == INPUT_CHANNEL_DISABLE){
-        inputChannelToggle->setValue(false);
+        inputChannelToggle->setValue(true);
+        inputChannelToggle->setState(1);
     }
     else {
-        inputChannelToggle->setValue(true);
+        inputChannelToggle->setValue(false);
+        inputChannelToggle->setState(0);
     }
 }
 #endif /* defined(__BodyCommander__OutputEnableFilter__) */

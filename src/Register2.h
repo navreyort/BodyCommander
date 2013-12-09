@@ -61,17 +61,21 @@ inline void Register2::uiEvent(ofxUIEventArgs &e){
 inline void Register2::setGUIState(){
 
     if(Register::receiver_settings->rssifet == RSSI_PULL_DOWN_ON){
-        rssiToggle->setValue(false);
+        rssiToggle->setValue(true);
+        rssiToggle->setState(1);
     }
     else {
-        rssiToggle->setValue(true);
+        rssiToggle->setValue(false);
+        rssiToggle->setState(0);
     }
     
-    if(Register::receiver_settings->rssifet == CARRIER_CLOCK_DIVIDE_4){
-        clkDivToggle->setValue(false);
+    if(Register::receiver_settings->clkdiv == CARRIER_CLOCK_DIVIDE_4){
+        clkDivToggle->setValue(true);
+        clkDivToggle->setState(1);
     }
     else {
-        clkDivToggle->setValue(true);
+        clkDivToggle->setValue(false);
+        clkDivToggle->setState(0);
     }
 }
 #endif /* defined(__BodyCommander__Register2__) */

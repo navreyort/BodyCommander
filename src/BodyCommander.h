@@ -12,6 +12,7 @@
 #include "Register7.h"
 #include "PresetPanel.h"
 #include "FaceImagePanel.h"
+#include "Mouse.h"
 
 class BodyCommander : public ofBaseApp{
 	public:

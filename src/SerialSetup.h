@@ -14,6 +14,7 @@
 #include "Register.h"
 #include "Terminal.h"
 #include "OscResponse.h"
+#include "Mouse.h"
 
 class SerialSetup : public UIExt {
 
@@ -49,6 +50,7 @@ private:
     bool serialConnected;
     vector<Register*> registers;
     OscResponse *oscResponse;
+    ofxUIToggle *led;
     
     void write();
 };
@@ -75,7 +77,8 @@ inline void SerialSetup::setupBody(){
     uiCanvas->addWidgetDown(new ofxUILabelButton("Connect",false));
     uiCanvas->addWidgetRight(new ofxUILabelButton("Refresh",false));
     uiCanvas->addWidgetRight(new ofxUILabelButton("Write",false));
-    uiCanvas->addWidgetRight(new ofxUIToggle(kToggleSize, kToggleSize, false, "LED"));
+    led = new ofxUIToggle(kToggleSize, kToggleSize, false, "LED");
+    uiCanvas->addWidgetRight(led);
 }
 
 inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
@@ -95,11 +98,12 @@ inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
         }
     }
     else if(name == "Connect"){
-        if (!serial->isInitialized()) {
+        if (!Mouse::sharedMouse()->getPressState() && !serial->isInitialized()) {
             serialConnected = serial->setup(curPort, curRate);
             if(serialConnected){
                 ET.begin((uint8_t*)Register::receiver_settings, sizeof(*Register::receiver_settings), serial);
                 ET2.begin((uint8_t*)SerialSetup::receiver_telemetry, sizeof(*SerialSetup::receiver_telemetry), serial);
+                Terminal::sharedTerminal()->post("Serial connection opened!");
             }
             else {
                 Terminal::sharedTerminal()->post("Can't Initialize Serial");
@@ -107,41 +111,54 @@ inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
         }
     }
     else if(name == "Refresh"){
-        serial->close();
-        delete serial;
-        serial = new ofSerial();
-        //serial->flush();
-        vector <ofSerialDeviceInfo> deviceList = serial->getDeviceList();
-        devices.clear();
-        for (int i=0; i<deviceList.size(); i++) {
-            devices.push_back(deviceList.at(i).getDeviceName());
-        }
-        portList->clearToggles();
-        portList->addToggles(devices);
-        for (int i=0; i<portList->getToggles().size(); i++) {
-            ofxUILabelToggle *toggle = portList->getToggles().at(i);
-            toggle->setColorBack(ofColor(150));
+        if(!Mouse::sharedMouse()->getPressState()){
+            serial->close();
+            delete serial;
+            serial = new ofSerial();
+            //serial->flush();
+            vector <ofSerialDeviceInfo> deviceList = serial->getDeviceList();
+            devices.clear();
+            for (int i=0; i<deviceList.size(); i++) {
+                devices.push_back(deviceList.at(i).getDeviceName());
+            }
+            portList->clearToggles();
+            portList->addToggles(devices);
+            for (int i=0; i<portList->getToggles().size(); i++) {
+                ofxUILabelToggle *toggle = portList->getToggles().at(i);
+                toggle->setColorBack(ofColor(150));
+            }
+            
+            Terminal::sharedTerminal()->post("Refreshed serial device and connection");
         }
     }
     else if(name == "Write"){
-        write();
+        if(!Mouse::sharedMouse()->getPressState()){
+            write();
+            Terminal::sharedTerminal()->post("Wrote Serial data");
+        }
     }
     else if(name == "LED"){
         if(((ofxUIToggle*)e.widget)->getValue()){
             Register::receiver_settings->led = 0x01;
-            //Terminal::sharedTerminal()->post("LED on");
+            Terminal::sharedTerminal()->post("LED on");
         }
         else {
             Register::receiver_settings->led = 0x00;
-            //Terminal::sharedTerminal()->post("LED off");
+            Terminal::sharedTerminal()->post("LED off");
         }
-        
-        //cout << "LED: " << ((int) Register::receiver_settings->led) << endl;
     }
 }
 
 inline void SerialSetup::setGUIState(){
-
+    if(Register::receiver_settings->led == 0x01){
+        led->setValue(true);
+        led->setState(1);
+    }
+    else {
+        led->setValue(false);
+        led->setState(0);
+        
+    }
 }
 
 inline void SerialSetup::receiveCycle(){
@@ -154,6 +171,7 @@ inline void SerialSetup::receiveCycle(){
                     for (int i=0; i<registers.size(); i++) {
                         registers[i]->setGUIState();
                     }
+                    setGUIState();
                 }
                 else{
                     Terminal::sharedTerminal()->post(":-(");
