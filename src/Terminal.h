@@ -18,9 +18,7 @@ class Terminal : public UIExt {
 public:
     Terminal(int x, int y, int w, int h):UIExt(kTerminalName, x, y, w, h){};
     
-    ~Terminal(){
-        delete textArea;
-    };
+    ~Terminal(){};
     
     ofSerial *getSerial() const;
     static Terminal *sharedTerminal();

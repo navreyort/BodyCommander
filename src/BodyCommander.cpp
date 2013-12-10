@@ -18,12 +18,16 @@ void BodyCommander::setup(){
     
     serialSetup = new SerialSetup(registers, kCanvasWidth*2+kSpacing*3, 2, kCanvasWidth, kRegister0Height);
     serialSetup->setup();
+    serialSetup->startThread(true, false);
     
     registerPreset = new RegisterPreset(registers, kCanvasWidth+kSpacing*2, 2, kCanvasWidth, kRegister0Height);
     registerPreset->setup();
     
     image = new FaceImagePanel(kCanvasWidth+kSpacing*2,kRegister0Height+kSpacing*2+168, 522, 200);
     image->setup();
+    
+//    cout << "frame rate: " << ofGetFrameRate() << endl;
+//    ofSetFrameRate(120);
 };
 
 //--------------------------------------------------------------
@@ -81,5 +85,14 @@ void BodyCommander::dragEvent(ofDragInfo dragInfo){
 }
 //--------------------------------------------------------------
 void BodyCommander::exit(){
+//    for (int i=0; i<registers.size(); i++) {
+//        delete registers[i];
+//    }
+//    registers.clear();
+    delete registerPreset;
+    serialSetup->stopThread();
+    delete serialSetup;
+    delete terminal;
+    delete image;
 }
 //--------------------------------------------------------------

@@ -15,10 +15,7 @@ class Register0 : public Register {
 public:
     Register0(int x, int y, int w, int h):Register(kRegister0Name,x,y,w,h){};
     
-    ~Register0(){
-        delete oefhtList;
-        delete oefltList;
-    };
+    ~Register0(){};
    
 protected:
     void uiEvent(ofxUIEventArgs &e);

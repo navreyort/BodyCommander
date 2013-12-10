@@ -14,9 +14,7 @@
 class Register4 : public Register {
 public:
     Register4(int x, int y, int w, int h):Register(kRegister4Name,x,y,w,h){};
-    ~Register4(){
-        delete lcxsenSlider;
-    };
+    ~Register4(){};
     
 protected:
     void uiEvent(ofxUIEventArgs &e);

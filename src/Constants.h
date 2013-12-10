@@ -11,13 +11,17 @@
 
 #include "MCP2035.h"
 
+#define kDavidID 16256
+#define kDavidImg "David-Cranor.jpg"
+#define kScottID 11008
+#define kScottImg "Scott.jpeg"
+
 //------------------- OSC
-#define kOscHost "192.168.43.162"
+#define kOscHost "18.85.55.35"
 #define kOscPort 5006
 #define kOscTag "/bcdata"
 
 //------------------- Microcontroller Related
-
 typedef struct SEND_DATA_STRUCTURE {
     //put your variable definitions here for the data you want to send
     //THIS MUST BE EXACTLY THE SAME ON THE OTHER ARDUINO

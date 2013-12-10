@@ -186,6 +186,7 @@
 		9A9CD5F7185170350033B6BA /* Register7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Register7.h; sourceTree = "<group>"; };
 		9A9CD5FA185173800033B6BA /* Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Register.h; sourceTree = "<group>"; };
 		9A9CD5FC1851B1260033B6BA /* MCP2035.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCP2035.h; sourceTree = "<group>"; };
+		9AD5EECE1856D7D900A9F6B4 /* OscSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscSetup.h; sourceTree = "<group>"; };
 		9AD855F618521F1F00349756 /* Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terminal.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -469,12 +470,20 @@
 			name = UIExt;
 			sourceTree = "<group>";
 		};
+		9AD5EECD1856D7CA00A9F6B4 /* Osc */ = {
+			isa = PBXGroup;
+			children = (
+				9A3CCCFF18554D0000FD8453 /* OscResponse.h */,
+				9AD5EECE1856D7D900A9F6B4 /* OscSetup.h */,
+			);
+			name = Osc;
+			sourceTree = "<group>";
+		};
 		9AD855F518521F1000349756 /* Monitor */ = {
 			isa = PBXGroup;
 			children = (
 				9AD855F618521F1F00349756 /* Terminal.h */,
 				9A807DF31853D48600875B5A /* FaceImagePanel.h */,
-				9A3CCCFF18554D0000FD8453 /* OscResponse.h */,
 			);
 			name = Monitor;
 			sourceTree = "<group>";
@@ -552,6 +561,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				9AD5EECD1856D7CA00A9F6B4 /* Osc */,
 				9AD855F518521F1000349756 /* Monitor */,
 				9A9CD5E8185157280033B6BA /* UIExt */,
 				9A9CD5E7185156CD0033B6BA /* Serial */,
@@ -601,7 +611,7 @@
 		E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "BodyCommander" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -699,7 +709,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
@@ -720,6 +730,7 @@
 					src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-D__MACOSX_CORE__",
 					"-lpthread",
@@ -733,7 +744,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -755,6 +766,7 @@
 					src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-D__MACOSX_CORE__",
 					"-lpthread",
@@ -846,7 +858,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
 				PRODUCT_NAME = BodyCommanderDebug;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -932,7 +944,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
 				PRODUCT_NAME = BodyCommander;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -32,6 +32,7 @@ public:
     
     virtual ~UIExt(){
         uiCanvas->saveSettings("GUI/"+name);
+        uiCanvas->removeWidgets();
         delete uiCanvas;
     };
     

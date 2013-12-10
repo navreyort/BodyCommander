@@ -14,10 +14,7 @@
 class Register5 : public Register {
 public:
     Register5(int x, int y, int w, int h):Register(kRegister5Name,x,y,w,h){};
-    ~Register5(){
-        delete modMinList;
-        delete agcSigToggle;
-    };
+    ~Register5(){};
 
 protected:
     void uiEvent(ofxUIEventArgs &e);

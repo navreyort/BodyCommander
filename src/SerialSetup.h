@@ -16,7 +16,7 @@
 #include "OscResponse.h"
 #include "Mouse.h"
 
-class SerialSetup : public UIExt {
+class SerialSetup : public UIExt, public ofThread {
 
 public:
     SerialSetup(vector<Register*> registers, int x, int y, int w, int h):UIExt(kSerialSetupName, x, y, w, h),registers(registers){
@@ -26,7 +26,6 @@ public:
     ~SerialSetup(){
         serial->close();
         delete serial;
-        delete portList;
     };
 
     ofSerial *getSerial() const;
@@ -53,7 +52,15 @@ private:
     ofxUIToggle *led;
     
     void write();
+    void threadedFunction();
 };
+
+inline void SerialSetup::threadedFunction(){
+    while(isThreadRunning()) {
+        receiveCycle();
+        sleep(1);
+    }
+}
 
 inline void SerialSetup::setupBody(){
     //Serial Device list
@@ -115,7 +122,7 @@ inline void SerialSetup::uiEvent(ofxUIEventArgs &e){
             serial->close();
             delete serial;
             serial = new ofSerial();
-            //serial->flush();
+            serial->flush();
             vector <ofSerialDeviceInfo> deviceList = serial->getDeviceList();
             devices.clear();
             for (int i=0; i<deviceList.size(); i++) {
@@ -162,29 +169,28 @@ inline void SerialSetup::setGUIState(){
 }
 
 inline void SerialSetup::receiveCycle(){
-    while(serial &&  serial->isInitialized() && serial->available() > 3){
-        if(Register::didSend){
-            if(ET.receiveData()){
-                if(Register::checkData()){
-                    Terminal::sharedTerminal()->post(":-)");
-                    //Populate UI
-                    for (int i=0; i<registers.size(); i++) {
-                        registers[i]->setGUIState();
-                    }
-                    setGUIState();
+    
+    if(Register::didSend){
+        if(serial &&  (serial->isInitialized() && serial->available() > 12) && ET.receiveData()){
+            if(Register::checkData()){
+                Terminal::sharedTerminal()->post(":-)");
+                //Populate UI
+                for (int i=0; i<registers.size(); i++) {
+                    registers[i]->setGUIState();
                 }
-                else{
-                    Terminal::sharedTerminal()->post(":-(");
-                }
+                setGUIState();
+            }
+            else{
+                Terminal::sharedTerminal()->post(":-(");
             }
         }
-        else {
-            if(ET2.receiveData()){
-                //TODO display data from the board
-                cout << receiver_telemetry->decodedData << endl;
-                oscResponse->sendMessage(receiver_telemetry->decodedData);
-                //serial->flush();
-            }
+    }
+    else {
+        if(serial &&  (serial->isInitialized() && serial->available() > 4) && ET2.receiveData()){
+            //TODO display data from the board
+            //cout << receiver_telemetry->decodedData << endl;
+            oscResponse->sendMessage(receiver_telemetry->decodedData);
+            serial->drain();
         }
     }
 }
