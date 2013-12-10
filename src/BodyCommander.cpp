@@ -18,7 +18,7 @@ void BodyCommander::setup(){
     
     serialSetup = new SerialSetup(registers, kCanvasWidth*2+kSpacing*3, 2, kCanvasWidth, kRegister0Height);
     serialSetup->setup();
-    serialSetup->startThread(true, false);
+    //serialSetup->startThread(true, false);
     
     registerPreset = new RegisterPreset(registers, kCanvasWidth+kSpacing*2, 2, kCanvasWidth, kRegister0Height);
     registerPreset->setup();
@@ -28,11 +28,13 @@ void BodyCommander::setup(){
     
 //    cout << "frame rate: " << ofGetFrameRate() << endl;
 //    ofSetFrameRate(120);
+//    ofSetFrameRate(24);
 };
 
 //--------------------------------------------------------------
 void BodyCommander::update(){
     serialSetup->receiveCycle();
+    image->setGUIState();
 }
 //--------------------------------------------------------------
 void BodyCommander::draw(){
@@ -90,7 +92,7 @@ void BodyCommander::exit(){
 //    }
 //    registers.clear();
     delete registerPreset;
-    serialSetup->stopThread();
+    //serialSetup->stopThread();
     delete serialSetup;
     delete terminal;
     delete image;

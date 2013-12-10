@@ -66,7 +66,7 @@ bool EasyTransfer::receiveData(){
     while(_serial->available() && rx_array_inx <= rx_len){
       rx_buffer[rx_array_inx++] = _serial->readByte();
     }
-    
+
     if(rx_len == (rx_array_inx-1)){
       //seem to have got whole message
       //last uint8_t is CS

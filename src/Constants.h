@@ -12,9 +12,9 @@
 #include "MCP2035.h"
 
 #define kDavidID 16256
-#define kDavidImg "David-Cranor.jpg"
-#define kScottID 11008
-#define kScottImg "Scott.jpeg"
+#define kDavidImg "img/David-Cranor.jpg"
+#define kScottID 10922
+#define kScottImg "img/Scott.jpeg"
 
 //------------------- OSC
 #define kOscHost "18.85.55.35"

@@ -1,21 +1,11 @@
 <Widget>
     <Kind>17</Kind>
-    <Name>cu.usbserial-AD01SVCP</Name>
-    <Value>0</Value>
-</Widget>
-<Widget>
-    <Kind>17</Kind>
     <Name>tty.usbserial-AD01SVCP</Name>
     <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>
-    <Name>cu.Bluetooth-Incoming-Port</Name>
-    <Value>0</Value>
-</Widget>
-<Widget>
-    <Kind>17</Kind>
-    <Name>tty.Bluetooth-Incoming-Port</Name>
+    <Name>cu.usbserial-AD01SVCP</Name>
     <Value>0</Value>
 </Widget>
 <Widget>
@@ -26,6 +16,16 @@
 <Widget>
     <Kind>17</Kind>
     <Name>tty.Bluetooth-Modem</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>tty.Bluetooth-Incoming-Port</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>cu.Bluetooth-Incoming-Port</Name>
     <Value>0</Value>
 </Widget>
 <Widget>
